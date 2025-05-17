@@ -1,0 +1,4 @@
+litellm[proxy]==1.70.0
+prisma=0.15.0
+google-cloud-aiplatform=1.93.0
+google-auth=2.40.1
