@@ -1,20 +1,11 @@
-# Read the doc: https://huggingface.co/docs/hub/spaces-sdks-docker
-# you will also find guides on how best to write your Dockerfile
-
-FROM python:3.11
-
-RUN useradd -m -u 1000 user
-USER user
-ENV PATH="/home/user/.local/bin:$PATH"
+FROM ghcr.io/berriai/litellm:main-latest
 
 WORKDIR /app
 
-EXPOSE 8080/tcp
+RUN pip install --no-cache-dir prisma google-cloud-aiplatform google-auth
 
-COPY --chown=user ./requirements.txt requirements.txt
-RUN pip install --no-cache-dir -r requirements.txt
+COPY config.yaml .
 
-COPY --chown=user ./config.yaml config.yaml
+EXPOSE 4000/tcp
 
-ENTRYPOINT ["litellm"]
-CMD ["--port", "8080", "--config", "config.yaml"]
+CMD ["--port", "4000", "--config", "config.yaml"]
